@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import User from "../models/User";
+import User from "../models/Users";
 
 class UserController {
     static async findAll(req: Request, res: Response) {
