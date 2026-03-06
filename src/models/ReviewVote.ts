@@ -6,7 +6,6 @@ class ReviewVote extends Model {
     public reviewId!: number;
     public userId!: number;
     public createdAt!: Date;
-    public updatedAt!: Date;
 }
 
 ReviewVote.init(
@@ -14,7 +13,7 @@ ReviewVote.init(
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
-            primaryKey: true
+            primaryKey: true,
         },
         reviewId: {
             type: DataTypes.INTEGER,
@@ -28,19 +27,15 @@ ReviewVote.init(
         },
         createdAt: {
             type: DataTypes.DATE,
+            allowNull: false,
             defaultValue: DataTypes.NOW,
             field: "created_at",
-        },
-        updatedAt: {
-            type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW,
-            field: "updated_at",
         },
     },
     {
         sequelize,
         tableName: "review_votes",
-        timestamps: true,
+        timestamps: false,
         indexes: [
             { unique: true, fields: ["review_id", "user_id"] },
             { fields: ["review_id"] },
@@ -50,3 +45,4 @@ ReviewVote.init(
 );
 
 export default ReviewVote;
+

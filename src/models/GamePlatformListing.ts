@@ -1,16 +1,17 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database";
 
-class GameImages extends Model {
+class GamePlatformListing extends Model {
     public id!: number;
     public gameId!: number;
-    public imageUrl!: string;
-    public sortOrder!: number;
+    public platformId!: number;
+    public price!: number;
+    public isActive!: boolean;
     public createdAt!: Date;
     public updatedAt!: Date;
 }
 
-GameImages.init(
+GamePlatformListing.init(
     {
         id: {
             type: DataTypes.INTEGER,
@@ -22,16 +23,20 @@ GameImages.init(
             allowNull: false,
             field: "game_id",
         },
-        imageUrl: {
-            type: DataTypes.STRING(500),
-            allowNull: false,
-            field: "image_url",
-        },
-        sortOrder: {
+        platformId: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            defaultValue: 0,
-            field: "sort_order",
+            field: "platform_id",
+        },
+        price: {
+            type: DataTypes.DECIMAL(10, 2),
+            allowNull: false,
+        },
+        isActive: {
+            type: DataTypes.BOOLEAN,
+            allowNull: false,
+            defaultValue: true,
+            field: "is_active",
         },
         createdAt: {
             type: DataTypes.DATE,
@@ -48,16 +53,18 @@ GameImages.init(
     },
     {
         sequelize,
-        tableName: "game_images",
+        tableName: "game_platform_listings",
         timestamps: true,
         createdAt: "created_at",
         updatedAt: "updated_at",
         indexes: [
+            { unique: true, fields: ["game_id", "platform_id"] },
             { fields: ["game_id"] },
-            { fields: ["sort_order"] },
+            { fields: ["platform_id"] },
+            { fields: ["is_active"] },
         ],
     }
 );
 
-export default GameImages;
+export default GamePlatformListing;
 

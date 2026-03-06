@@ -4,7 +4,7 @@ import sequelize from "../config/database";
 class Promotion extends Model {
     public id!: number;
     public name!: string;
-    public description?: string;
+    public description!: string | null;
     public discountPercentage!: number;
     public startDate!: Date;
     public endDate!: Date;
@@ -18,7 +18,7 @@ Promotion.init(
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
-            primaryKey: true
+            primaryKey: true,
         },
         name: {
             type: DataTypes.STRING(255),
@@ -45,16 +45,19 @@ Promotion.init(
         },
         isActive: {
             type: DataTypes.BOOLEAN,
+            allowNull: false,
             defaultValue: true,
             field: "is_active",
         },
         createdAt: {
             type: DataTypes.DATE,
+            allowNull: false,
             defaultValue: DataTypes.NOW,
             field: "created_at",
         },
         updatedAt: {
             type: DataTypes.DATE,
+            allowNull: false,
             defaultValue: DataTypes.NOW,
             field: "updated_at",
         },
@@ -63,6 +66,8 @@ Promotion.init(
         sequelize,
         tableName: "promotions",
         timestamps: true,
+        createdAt: "created_at",
+        updatedAt: "updated_at",
         indexes: [
             { fields: ["is_active"] },
             { fields: ["start_date"] },
@@ -72,3 +77,4 @@ Promotion.init(
 );
 
 export default Promotion;
+

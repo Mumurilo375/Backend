@@ -4,8 +4,8 @@
 module.exports = {
   async up(queryInterface, Sequelize) {
     const now = new Date();
-    const statuses = ['pending', 'completed', 'cancelled', 'processing', 'refunded'];
-    const methods = ['credit_card', 'pix', 'boleto', 'debit_card', 'paypal'];
+    const statuses = ['pending', 'paid', 'delivering', 'completed', 'cancelled'];
+    const methods = ['credit_card', 'pix', 'paypal'];
 
     const orders = [];
     for (let i = 1; i <= 45; i++) {

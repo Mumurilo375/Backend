@@ -1,40 +1,41 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database";
 
-class PromotionGame extends Model {
+class PromotionListing extends Model {
     public id!: number;
     public promotionId!: number;
-    public gameId!: number;
+    public listingId!: number;
 }
 
-PromotionGame.init(
+PromotionListing.init(
     {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
-            primaryKey: true
+            primaryKey: true,
         },
         promotionId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             field: "promotion_id",
         },
-        gameId: {
+        listingId: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            field: "game_id",
+            field: "listing_id",
         },
     },
     {
         sequelize,
-        tableName: "promotion_games",
+        tableName: "promotion_listings",
         timestamps: false,
         indexes: [
-            { unique: true, fields: ["promotion_id", "game_id"] },
+            { unique: true, fields: ["promotion_id", "listing_id"] },
             { fields: ["promotion_id"] },
-            { fields: ["game_id"] },
+            { fields: ["listing_id"] },
         ],
     }
 );
 
-export default PromotionGame;
+export default PromotionListing;
+

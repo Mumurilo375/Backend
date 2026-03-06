@@ -4,7 +4,7 @@ import sequelize from "../config/database";
 class CartItem extends Model {
     public id!: number;
     public userId!: number;
-    public gameId!: number;
+    public listingId!: number;
     public addedAt!: Date;
 }
 
@@ -13,20 +13,21 @@ CartItem.init(
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
-            primaryKey: true
+            primaryKey: true,
         },
         userId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             field: "user_id",
         },
-        gameId: {
+        listingId: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            field: "game_id",
+            field: "listing_id",
         },
         addedAt: {
             type: DataTypes.DATE,
+            allowNull: false,
             defaultValue: DataTypes.NOW,
             field: "added_at",
         },
@@ -36,10 +37,11 @@ CartItem.init(
         tableName: "cart_items",
         timestamps: false,
         indexes: [
-            { unique: true, fields: ["user_id", "game_id"] },
+            { unique: true, fields: ["user_id", "listing_id"] },
             { fields: ["user_id"] },
         ],
     }
 );
 
 export default CartItem;
+

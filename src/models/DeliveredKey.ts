@@ -1,51 +1,56 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database";
 
-class UserLibrary extends Model {
+class DeliveredKey extends Model {
     public id!: number;
     public userId!: number;
-    public gameId!: number;
-    public orderId!: number;
-    public purchasedAt!: Date;
+    public orderItemId!: number;
+    public gameKeyId!: number;
+    public deliveredAt!: Date;
 }
 
-UserLibrary.init(
+DeliveredKey.init(
     {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
-            primaryKey: true
+            primaryKey: true,
         },
         userId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             field: "user_id",
         },
-        gameId: {
+        orderItemId: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            field: "game_id",
+            unique: true,
+            field: "order_item_id",
         },
-        orderId: {
+        gameKeyId: {
             type: DataTypes.INTEGER,
             allowNull: false,
-            field: "order_id",
+            unique: true,
+            field: "game_key_id",
         },
-        purchasedAt: {
+        deliveredAt: {
             type: DataTypes.DATE,
+            allowNull: false,
             defaultValue: DataTypes.NOW,
-            field: "purchased_at",
+            field: "delivered_at",
         },
     },
     {
         sequelize,
-        tableName: "user_library",
+        tableName: "delivered_keys",
         timestamps: false,
         indexes: [
-            { unique: true, fields: ["user_id", "game_id"] },
             { fields: ["user_id"] },
+            { fields: ["order_item_id"] },
+            { fields: ["game_key_id"] },
         ],
     }
 );
 
-export default UserLibrary;
+export default DeliveredKey;
+

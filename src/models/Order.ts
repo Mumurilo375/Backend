@@ -11,7 +11,6 @@ class Order extends Model {
     public totalAmount!: number;
     public paymentMethod!: string;
     public createdAt!: Date;
-    public updatedAt!: Date;
 }
 
 Order.init(
@@ -19,7 +18,7 @@ Order.init(
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
-            primaryKey: true
+            primaryKey: true,
         },
         orderNumber: {
             type: DataTypes.STRING(50),
@@ -43,6 +42,7 @@ Order.init(
         },
         discountAmount: {
             type: DataTypes.DECIMAL(10, 2),
+            allowNull: false,
             defaultValue: 0,
             field: "discount_amount",
         },
@@ -58,19 +58,15 @@ Order.init(
         },
         createdAt: {
             type: DataTypes.DATE,
+            allowNull: false,
             defaultValue: DataTypes.NOW,
             field: "created_at",
-        },
-        updatedAt: {
-            type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW,
-            field: "updated_at",
         },
     },
     {
         sequelize,
         tableName: "orders",
-        timestamps: true,
+        timestamps: false,
         indexes: [
             { fields: ["order_number"] },
             { fields: ["user_id"] },
@@ -81,3 +77,4 @@ Order.init(
 );
 
 export default Order;
+

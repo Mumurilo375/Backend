@@ -1,40 +1,42 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database";
 
-class OrderItem extends Model {
+class Platform extends Model {
     public id!: number;
-    public orderId!: number;
-    public listingId!: number;
-    public gameKeyId!: number | null;
-    public price!: number;
+    public name!: string;
+    public slug!: string;
+    public iconUrl!: string | null;
+    public isActive!: boolean;
     public createdAt!: Date;
 }
 
-OrderItem.init(
+Platform.init(
     {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
         },
-        orderId: {
-            type: DataTypes.INTEGER,
+        name: {
+            type: DataTypes.STRING(100),
             allowNull: false,
-            field: "order_id",
+            unique: true,
         },
-        listingId: {
-            type: DataTypes.INTEGER,
+        slug: {
+            type: DataTypes.STRING(100),
             allowNull: false,
-            field: "listing_id",
+            unique: true,
         },
-        gameKeyId: {
-            type: DataTypes.INTEGER,
+        iconUrl: {
+            type: DataTypes.STRING(500),
             allowNull: true,
-            field: "game_key_id",
+            field: "icon_url",
         },
-        price: {
-            type: DataTypes.DECIMAL(10, 2),
+        isActive: {
+            type: DataTypes.BOOLEAN,
             allowNull: false,
+            defaultValue: true,
+            field: "is_active",
         },
         createdAt: {
             type: DataTypes.DATE,
@@ -45,15 +47,15 @@ OrderItem.init(
     },
     {
         sequelize,
-        tableName: "order_items",
+        tableName: "platforms",
         timestamps: false,
         indexes: [
-            { fields: ["order_id"] },
-            { fields: ["listing_id"] },
-            { fields: ["game_key_id"] },
+            { fields: ["name"] },
+            { fields: ["slug"] },
+            { fields: ["is_active"] },
         ],
     }
 );
 
-export default OrderItem;
+export default Platform;
 

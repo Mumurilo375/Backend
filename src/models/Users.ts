@@ -3,15 +3,15 @@ import sequelize from "../config/database";
 
 class Users extends Model {
     public id!: number;
-    public username!: string;
     public email!: string;
-    public fullName!: string;
-    public cpf!: string;
-    public avatarUrl?: string;
+    public username!: string;
+    public fullName!: string | null;
+    public cpf!: string | null;
+    public avatarUrl!: string | null;
     public isAdmin!: boolean;
     public createdAt!: Date;
     public updatedAt!: Date;
-    private passwordHash!: string;
+    public passwordHash!: string;
 }
 
 Users.init(
@@ -19,58 +19,70 @@ Users.init(
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
-            primaryKey: true
-        },
-        username: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            unique: true
+            primaryKey: true,
         },
         email: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(255),
             allowNull: false,
-            unique: true
+            unique: true,
         },
-        fullName: {
-            type: DataTypes.STRING,
-            allowNull: true
-        },
-        cpf: {
-            type: DataTypes.STRING,
-            allowNull: true,
-            unique: true
+        username: {
+            type: DataTypes.STRING(50),
+            allowNull: false,
+            unique: true,
         },
         passwordHash: {
-            type: DataTypes.STRING,
-            allowNull: false
+            type: DataTypes.STRING(255),
+            allowNull: false,
+            field: "password_hash",
+        },
+        fullName: {
+            type: DataTypes.STRING(255),
+            allowNull: true,
+            field: "full_name",
+        },
+        cpf: {
+            type: DataTypes.STRING(14),
+            allowNull: true,
+            unique: true,
         },
         avatarUrl: {
-            type: DataTypes.STRING,
-            allowNull: true
+            type: DataTypes.STRING(500),
+            allowNull: true,
+            field: "avatar_url",
         },
         isAdmin: {
             type: DataTypes.BOOLEAN,
-            defaultValue: false
+            allowNull: false,
+            defaultValue: false,
+            field: "is_admin",
         },
         createdAt: {
             type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW
+            allowNull: false,
+            defaultValue: DataTypes.NOW,
+            field: "created_at",
         },
         updatedAt: {
             type: DataTypes.DATE,
-            defaultValue: DataTypes.NOW
-        }
+            allowNull: false,
+            defaultValue: DataTypes.NOW,
+            field: "updated_at",
+        },
     },
     {
         sequelize,
         tableName: "users",
         timestamps: true,
+        createdAt: "created_at",
+        updatedAt: "updated_at",
         indexes: [
             { fields: ["email"] },
             { fields: ["username"] },
             { fields: ["cpf"] },
         ],
-    },
+    }
 );
 
 export default Users;
+

@@ -1,40 +1,47 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database";
 
-class OrderItem extends Model {
+class GameKey extends Model {
     public id!: number;
-    public orderId!: number;
     public listingId!: number;
-    public gameKeyId!: number | null;
-    public price!: number;
+    public keyValue!: string;
+    public status!: string;
+    public reservedAt!: Date | null;
+    public soldAt!: Date | null;
     public createdAt!: Date;
 }
 
-OrderItem.init(
+GameKey.init(
     {
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
             primaryKey: true,
         },
-        orderId: {
-            type: DataTypes.INTEGER,
-            allowNull: false,
-            field: "order_id",
-        },
         listingId: {
             type: DataTypes.INTEGER,
             allowNull: false,
             field: "listing_id",
         },
-        gameKeyId: {
-            type: DataTypes.INTEGER,
-            allowNull: true,
-            field: "game_key_id",
-        },
-        price: {
-            type: DataTypes.DECIMAL(10, 2),
+        keyValue: {
+            type: DataTypes.STRING(255),
             allowNull: false,
+            field: "key_value",
+        },
+        status: {
+            type: DataTypes.STRING(20),
+            allowNull: false,
+            defaultValue: "available",
+        },
+        reservedAt: {
+            type: DataTypes.DATE,
+            allowNull: true,
+            field: "reserved_at",
+        },
+        soldAt: {
+            type: DataTypes.DATE,
+            allowNull: true,
+            field: "sold_at",
         },
         createdAt: {
             type: DataTypes.DATE,
@@ -45,15 +52,15 @@ OrderItem.init(
     },
     {
         sequelize,
-        tableName: "order_items",
+        tableName: "game_keys",
         timestamps: false,
         indexes: [
-            { fields: ["order_id"] },
             { fields: ["listing_id"] },
-            { fields: ["game_key_id"] },
+            { fields: ["status"] },
+            { fields: ["listing_id", "status"] },
         ],
     }
 );
 
-export default OrderItem;
+export default GameKey;
 

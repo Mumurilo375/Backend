@@ -3,15 +3,14 @@ import sequelize from "../config/database";
 
 class Games extends Model {
     public id!: number;
-    public title!: string; //notNull
-    public description!: string; //notNull
-    public longDescription!: string; //notNull
-    public releaseDate!: Date; //notNull
-    public basePrice!: number; //notNull //default 0
-    public coverImageUrl?: string; //notNull
-    public isActive!: boolean; //default true
-    public createdAt!: Date; //default now
-    public updatedAt!: Date; //default now
+    public title!: string;
+    public description!: string;
+    public longDescription!: string;
+    public releaseDate!: Date;
+    public coverImageUrl!: string;
+    public isActive!: boolean;
+    public createdAt!: Date;
+    public updatedAt!: Date;
 }
 
 Games.init(
@@ -19,51 +18,63 @@ Games.init(
         id: {
             type: DataTypes.INTEGER,
             autoIncrement: true,
-            primaryKey: true
+            primaryKey: true,
         },
         title: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(255),
             allowNull: false,
         },
         description: {
-            type: DataTypes.STRING,
+            type: DataTypes.TEXT,
             allowNull: false,
         },
         longDescription: {
-            type: DataTypes.STRING,
-            allowNull: true,
+            type: DataTypes.TEXT,
+            allowNull: false,
+            field: "long_description",
         },
         releaseDate: {
-            type: DataTypes.DATE,
+            type: DataTypes.DATEONLY,
             allowNull: false,
-        },
-        basePrice: {
-            type: DataTypes.DECIMAL(10, 2),
-            allowNull: false,
-            defaultValue: 0
+            field: "release_date",
         },
         coverImageUrl: {
-            type: DataTypes.STRING,
+            type: DataTypes.STRING(500),
             allowNull: false,
+            field: "cover_image_url",
         },
         isActive: {
             type: DataTypes.BOOLEAN,
+            allowNull: false,
             defaultValue: true,
+            field: "is_active",
         },
         createdAt: {
             type: DataTypes.DATE,
+            allowNull: false,
             defaultValue: DataTypes.NOW,
+            field: "created_at",
         },
         updatedAt: {
             type: DataTypes.DATE,
+            allowNull: false,
             defaultValue: DataTypes.NOW,
-        }
+            field: "updated_at",
+        },
     },
     {
         sequelize,
         tableName: "games",
-        timestamps: true
-    },
+        timestamps: true,
+        createdAt: "created_at",
+        updatedAt: "updated_at",
+        indexes: [
+            { fields: ["title"] },
+            { fields: ["release_date"] },
+            { fields: ["is_active"] },
+        ],
+    }
 );
 
 export default Games;
+
