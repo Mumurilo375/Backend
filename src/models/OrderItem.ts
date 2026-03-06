@@ -1,5 +1,9 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database";
+import Order from "./Order";
+import GamePlatformListing from "./GamePlatformListing";
+import GameKey from "./GameKey";
+import DeliveredKey from "./DeliveredKey";
 
 class OrderItem extends Model {
     public id!: number;
@@ -31,6 +35,7 @@ OrderItem.init(
             type: DataTypes.INTEGER,
             allowNull: true,
             field: "game_key_id",
+            unique: true,
         },
         price: {
             type: DataTypes.DECIMAL(10, 2),
@@ -54,6 +59,11 @@ OrderItem.init(
         ],
     }
 );
+
+OrderItem.belongsTo(Order, { foreignKey: "order_id", as: "order" });
+OrderItem.belongsTo(GamePlatformListing, { foreignKey: "listing_id", as: "listing" });
+OrderItem.belongsTo(GameKey, { foreignKey: "game_key_id", as: "gameKey" });
+OrderItem.hasOne(DeliveredKey, { foreignKey: "order_item_id", as: "deliveredKey" });
 
 export default OrderItem;
 

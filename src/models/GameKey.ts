@@ -1,5 +1,8 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database";
+import GamePlatformListing from "./GamePlatformListing";
+import OrderItem from "./OrderItem";
+import DeliveredKey from "./DeliveredKey";
 
 class GameKey extends Model {
     public id!: number;
@@ -61,6 +64,11 @@ GameKey.init(
         ],
     }
 );
+
+GameKey.belongsTo(GamePlatformListing, { foreignKey: "listing_id", as: "listing" });
+GameKey.hasOne(OrderItem, { foreignKey: "game_key_id", as: "orderItem" }); // pode ter 0 ou 1 OrderItem associado
+GameKey.hasOne(DeliveredKey, { foreignKey: "game_key_id", as: "deliveredKey" }); // pode ter 0 ou 1 DeliveredKey associado, indicando se a chave foi entregue ou não
+
 
 export default GameKey;
 

@@ -1,5 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database";
+import Users from "./Users";
+import Games from "./Games";
 
 class Wishlist extends Model {
     public id!: number;
@@ -41,5 +43,8 @@ Wishlist.init(
         ],
     }
 );
+
+Wishlist.belongsTo(Users, { foreignKey: "user_id", as: "user" });
+Wishlist.belongsTo(Games, { foreignKey: "game_id", as: "game" });
 
 export default Wishlist;

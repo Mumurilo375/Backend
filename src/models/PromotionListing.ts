@@ -1,5 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database";
+import GamePlatformListing from "./GamePlatformListing";
+import Promotion from "./Promotion";
 
 class PromotionListing extends Model {
     public id!: number;
@@ -36,6 +38,9 @@ PromotionListing.init(
         ],
     }
 );
+
+PromotionListing.belongsTo(Promotion, { foreignKey: "promotion_id", as: "promotion" });
+PromotionListing.belongsTo(GamePlatformListing, { foreignKey: "listing_id", as: "listing" });
 
 export default PromotionListing;
 

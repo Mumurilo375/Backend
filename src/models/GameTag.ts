@@ -1,5 +1,7 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database";
+import Tags from "./Tags";
+import Games from "./Games";
 
 class GameTag extends Model {
     public gameId!: number;
@@ -31,5 +33,8 @@ GameTag.init(
         ],
     }
 );
+
+GameTag.belongsTo(Games, { foreignKey: "game_id", as: "game" });
+GameTag.belongsTo(Tags, { foreignKey: "tag_id", as: "tag" });
 
 export default GameTag;

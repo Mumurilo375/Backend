@@ -1,5 +1,8 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database";
+import Games from "./Games";
+import Categories from "./Category";
+import GameTag from "./GameTag";
 
 class Tags extends Model {
     public id!: number;
@@ -28,5 +31,8 @@ Tags.init(
         ],
     }
 );
+
+Tags.belongsToMany(Games, { through: "GameTag", foreignKey: "tag_id", as: "games" });
+Tags.hasMany(GameTag, { foreignKey: "tag_id", as: "gameTags" });
 
 export default Tags;

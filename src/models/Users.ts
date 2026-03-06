@@ -1,5 +1,11 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database";
+import Review from "./Review";
+import ReviewVote from "./ReviewVote";
+import CartItem from "./CartItem";
+import Wishlist from "./Wishlist";
+import Order from "./Order";
+import DeliveredKey from "./DeliveredKey";
 
 class Users extends Model {
     public id!: number;
@@ -83,6 +89,13 @@ Users.init(
         ],
     }
 );
+
+Users.hasMany(Review, { foreignKey: "user_id", as: "reviews" });
+Users.hasMany(ReviewVote, { foreignKey: "user_id", as: "reviewVotes" });
+Users.hasMany(CartItem, { foreignKey: "user_id", as: "cartItems" });
+Users.hasMany(Wishlist, { foreignKey: "user_id", as: "wishlistItems" });
+Users.hasMany(Order, { foreignKey: "user_id", as: "orders" });
+Users.hasMany(DeliveredKey, { foreignKey: "user_id", as: "deliveredKeys" });
 
 export default Users;
 

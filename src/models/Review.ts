@@ -1,5 +1,8 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database";
+import ReviewVote from "./ReviewVote";
+import Users from "./Users";
+import Games from "./Games";
 
 class Review extends Model {
     public id!: number;
@@ -60,5 +63,9 @@ Review.init(
         ],
     }
 );
+
+Review.belongsTo(Games, { foreignKey: "game_id", as: "game" });
+Review.belongsTo(Users, { foreignKey: "user_id", as: "user" });
+Review.hasMany(ReviewVote, { foreignKey: "review_id", as: "votes" });
 
 export default Review;

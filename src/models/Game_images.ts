@@ -1,5 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import sequelize from "../config/database";
+import Games from "./Games";
 
 class GameImages extends Model {
     public id!: number;
@@ -58,6 +59,8 @@ GameImages.init(
         ],
     }
 );
+
+GameImages.belongsTo(Games, { foreignKey: "game_id", as: "game" });
 
 export default GameImages;
 
