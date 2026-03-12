@@ -4,3 +4,4 @@ node_modules
 !.env.example
 relationships-view.html
 regras-negocio-visao-senior.md
+dist/
