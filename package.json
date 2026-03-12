@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "build": "tsc",
-    "start": "node dist/src/server.js",
+    "start": "node dist/server.js",
     "db:migrate": "npx sequelize db:migrate",
     "db:migrate:undo": "npx sequelize db:migrate:undo",
     "db:seed": "npx sequelize db:seed:all",
